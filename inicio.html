@@ -3,149 +3,560 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagos en línea - Mobilize Financial Services</title>
+    <title>Ecredit Personalizado - MP</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: Arial, Helvetica, sans-serif; background: #f0f0f0; min-height: 100vh; display: flex; flex-direction: column; }
-        header { background: #fff; padding: 16px 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-        .logo { display: flex; flex-direction: column; line-height: 1; }
-        .logo-top { font-size: 28px; font-weight: 900; color: #1a1a1a; letter-spacing: -0.5px; display: flex; align-items: center; gap: 2px; }
-        .logo-circle { display: inline-block; width: 28px; height: 28px; border-radius: 50%; border: 3px solid #e8391e; position: relative; margin: 0 1px; }
-        .logo-circle::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-45deg); width: 2px; height: 100%; background: #e8391e; }
-        .logo-bottom { font-size: 11px; font-weight: 700; color: #1a1a1a; letter-spacing: 1.5px; }
-        main.content { flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 32px 16px; }
-        .card { background: #fff; border-radius: 16px; padding: 32px 28px; width: 100%; max-width: 440px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
-        .card h1 { font-size: 15px; font-weight: 400; color: #444; text-align: center; line-height: 1.5; margin-bottom: 24px; }
-        .input-wrap { position: relative; margin-bottom: 20px; }
-        .input-wrap input { width: 100%; padding: 18px 14px 6px; border: 1.5px solid #ccc; border-radius: 8px; font-size: 15px; color: #1a1a1a; outline: none; background: #fff; transition: border-color .2s; }
-        .input-wrap input:focus { border-color: #1a1a1a; }
-        .input-wrap label { position: absolute; top: 50%; left: 14px; transform: translateY(-50%); font-size: 14px; color: #888; pointer-events: none; transition: all .15s; }
-        .input-wrap input:focus ~ label, .input-wrap input:not(:placeholder-shown) ~ label { top: 8px; font-size: 11px; color: #555; transform: none; }
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 50px; font-size: 13px; font-weight: 700; letter-spacing: 1px; cursor: pointer; margin-bottom: 10px; transition: opacity .2s; }
-        .btn:hover { opacity: 0.88; }
-        .btn-dark { background: #1a1a1a; color: #fff; }
-        .btn-gray { background: #d0d0d0; color: #888; cursor: not-allowed; }
-        .btn-gray.active { background: #1a1a1a; color: #fff; cursor: pointer; }
-        .disclaimer { max-width: 440px; margin: 0 auto; padding: 0 16px 32px; }
-        .disclaimer p { font-size: 13px; color: #555; line-height: 1.7; text-align: justify; margin-bottom: 14px; }
-        footer { background: #fff; border-top: 1px solid #e0e0e0; padding: 20px 24px; display: flex; align-items: center; gap: 16px; }
-        .footer-logo { display: flex; flex-direction: column; line-height: 1; border-left: 3px solid #ccc; padding-left: 12px; }
-        .footer-logo .fl-top { font-size: 16px; font-weight: 900; color: #1a1a1a; display: flex; align-items: center; gap: 1px; }
-        .footer-logo .fl-circle { display: inline-block; width: 16px; height: 16px; border-radius: 50%; border: 2px solid #e8391e; position: relative; margin: 0 1px; }
-        .footer-logo .fl-circle::after { content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) rotate(-45deg); width: 1.5px; height: 100%; background: #e8391e; }
-        .footer-logo .fl-bottom { font-size: 7px; font-weight: 700; color: #1a1a1a; letter-spacing: 1px; }
-        .footer-text { font-size: 11px; color: #777; line-height: 1.5; }
-        .error-msg { color: #c0392b; font-size: 13px; margin-top: 12px; text-align: center; display: none; }
-        .info-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #2c5282; }
-        .info-box strong { display: block; margin-bottom: 4px; }
-        .info-box code { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
-        @media (max-width: 480px) { .card { padding: 24px 18px; } }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            color: #111;
+            background: #fff;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+        }
+
+        /* =========================
+           PANEL IZQUIERDO
+        ========================== */
+
+        .main {
+            background: #ffffff;
+            padding: 70px 8%;
+        }
+
+        .content {
+            width: 535px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 68px;
+        }
+
+        .intro {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+
+        .field-group {
+            margin-bottom: 27px;
+        }
+
+        label {
+            display: block;
+            color: #29415a;
+            font-size: 16px;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #c7d0d8;
+            border-radius: 9px;
+            outline: none;
+            font-size: 16px;
+            background: #fff;
+        }
+
+        input:focus {
+            border-color: #79b9d9;
+            box-shadow: 0 0 0 3px rgba(121, 185, 217, 0.18);
+        }
+
+        .privacy {
+            color: #66788b;
+            font-size: 16px;
+            line-height: 1.45;
+            margin-bottom: 25px;
+        }
+
+        .privacy strong {
+            color: #526477;
+        }
+
+        .button-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            width: 224px;
+            height: 50px;
+            border: none;
+            border-radius: 9px;
+            background: #7dbada;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #65aaca;
+        }
+
+        /* =========================
+           PANEL DERECHO
+        ========================== */
+
+        .side {
+            background: #b9e0f6;
+            min-height: 100vh;
+            padding: 58px 36px 34px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side h2 {
+            font-size: 26px;
+            margin-bottom: 25px;
+        }
+
+        .side p {
+            max-width: 455px;
+            font-size: 17px;
+            line-height: 1.55;
+            color: #142333;
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        .side-footer {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 26px;
+            font-size: 13px;
+        }
+
+        .made-by {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .brand {
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .brand .a {
+            color: #67a9cf;
+        }
+
+        .brand .p {
+            color: #ef7b31;
+        }
+
+        .brand .m {
+            color: #1d4662;
+        }
+
+        .language {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .chat-icon {
+            width: 19px;
+            height: 15px;
+            border: 1.8px solid #111;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .chat-icon::after {
+            content: "";
+            position: absolute;
+            right: 2px;
+            bottom: -4px;
+            width: 5px;
+            height: 5px;
+            border-left: 1.8px solid #111;
+            transform: skew(-25deg);
+        }
+
+        .chevron {
+            width: 9px;
+            height: 9px;
+            border-right: 2px solid #111;
+            border-bottom: 2px solid #111;
+            transform: rotate(45deg) translateY(-2px);
+        }
+
+        /* =========================
+           NUEVA VISTA (PANTALLA DE PAGO)
+        ========================== */
+        .payment-view {
+            display: none; /* Oculto por defecto */
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .payment-header h1 {
+            margin-bottom: 0;
+            font-size: 28px;
+        }
+
+        .logout-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #0070c0;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logout-link svg {
+            width: 18px;
+            height: 18px;
+            fill: #0070c0;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 30px;
+            border-bottom: 1px solid #e0e5eb;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding-bottom: 12px;
+            font-size: 15px;
+            color: #66788b;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab.active {
+            color: #111;
+            font-weight: 700;
+        }
+
+        .tab.active::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #111;
+        }
+
+        .card {
+            border: 1px solid #e0e5eb;
+            border-radius: 12px;
+            padding: 24px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .card-row {
+            display: flex;
+            gap: 10px;
+            font-size: 16px;
+            color: #29415a;
+        }
+
+        .card-row .label {
+            font-weight: 400;
+            color: #526477;
+        }
+
+        .card-row .value {
+            font-weight: 700;
+            color: #111;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .amount-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .amount-row .currency {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .amount-row .amount {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111;
+        }
+
+        .amount-row .edit-icon {
+            width: 16px;
+            height: 16px;
+            fill: #66788b;
+            cursor: pointer;
+        }
+
+        .min-payment {
+            font-size: 14px;
+            color: #66788b;
+        }
+
+        .btn-pay {
+            background: #0070c0;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 40px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-pay:hover {
+            background: #005a9e;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 900px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+            .main {
+                min-height: 650px;
+                padding: 50px 30px;
+            }
+            .side {
+                min-height: 330px;
+                padding: 45px 30px 30px;
+            }
+            .side-footer {
+                margin-top: 70px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            h1 {
+                font-size: 27px;
+                margin-bottom: 45px;
+            }
+            .intro {
+                font-size: 15px;
+            }
+            .privacy {
+                font-size: 15px;
+            }
+            .side h2 {
+                font-size: 23px;
+            }
+            .side p {
+                font-size: 15px;
+            }
+            .side-footer {
+                justify-content: space-between;
+                gap: 10px;
+            }
+            .card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .card-actions {
+                align-items: flex-start;
+                width: 100%;
+            }
+            .btn-pay {
+                width: 100%;
+            }
+        }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <div class="logo">
-            <div class="logo-top">M<span class="logo-circle"></span>BILIZE</div>
-            <div class="logo-bottom">FINANCIAL SERVICES</div>
-        </div>
-    </header>
+    <div class="page">
 
-    <main class="content">
-        <div>
-            <div class="card">
-                <h1>Ingresa el número de tu crédito para realizar el pago de tu obligación</h1>
-                
-                <!-- INFO: Créditos disponibles -->
-               
+        <!-- =========================
+             IZQUIERDA
+        ========================== -->
 
-                <form id="creditForm" onsubmit="return false;">
-                    <div class="input-wrap">
-                        <input type="text" id="credito" placeholder=" " inputmode="numeric" autocomplete="off">
-                        <label for="credito">Número de crédito *</label>
+        <main class="main">
+
+            <!-- VISTA 1: FORMULARIO INICIAL -->
+            <div class="content" id="form-view">
+                <h1>Ecredit Personalizado - MP</h1>
+                <p class="intro">Comience el proceso de pago, ingresando la siguiente información</p>
+                <form>
+                    <div class="field-group">
+                        <label for="referencia">Referencia <span>*</span></label>
+                        <input type="text" id="referencia" name="referencia" autocomplete="off">
                     </div>
-                    <button type="button" class="btn btn-dark" onclick="history.back()">REGRESAR</button>
-                    <button type="button" class="btn btn-gray" id="btnContinuar" disabled>CONTINUAR</button>
+                    <p class="privacy">
+                        Al continuar, acepto las políticas aplicables para el
+                        tratamiento de mis datos personales según la jurisdicción
+                        local del responsable y de
+                        <strong>AvalPay</strong>
+                        en su calidad de encargado.
+                    </p>
+                    <div class="button-wrap">
+                        <button type="button" onclick="ingresar()">Ingresar</button>
+                    </div>
                 </form>
-                <div class="error-msg" id="msgError"></div>
             </div>
 
-            <div class="disclaimer">
-                <p>Todos los pagos serán aplicados según el horario bancario definido por la Entidad. De realizarse el pago fuera de este horario, éste será aplicado al siguiente día hábil bancario de conformidad con el Artículo 97 del Decreto 663 de 1993 (Estatuto Orgánico del Sistema Financiero).</p>
-                <p>Todo abono extraordinario realizado no adelantará cuotas del crédito; por defecto, éste será aplicado a capital bajo la modalidad de reducir el plazo. En caso de que desees que dicho abono sea abonado a capital bajo la modalidad de reducir cuota, una vez realices el pago deberás informar a la Entidad escribiendo al correo electrónico clientes@mobilize-fs.com o comunicándote con nuestras líneas de atención.</p>
-                <p>Si posees más de un crédito, es necesario realizar una transacción por cada uno.</p>
-                <p>Para resolver tus inquietudes sobre el crédito, contáctanos a través de nuestras líneas de atención.</p>
+            <!-- VISTA 2: PANTALLA DE PAGO (OCULTA INICIALMENTE) -->
+            <div class="content payment-view" id="payment-view">
+                <div class="payment-header">
+                    <h1>Ecredit Personalizado - MP</h1>
+                    <a class="logout-link" onclick="cerrarSesion()">
+                        <svg viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                        Cerrar sesión
+                    </a>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active">Registros relacionados</div>
+                    <div class="tab">Historial de pago</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-info">
+                        <div class="card-row">
+                            <span class="label">Referencia</span>
+                            <span class="value" id="ref-display">402026430</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="label">Descripción</span>
+                            <span class="value" id="desc-display">Pago de crédito 402026430</span>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <div class="amount-row">
+                            <span class="currency">COP</span>
+                            <span class="amount">188,382</span>
+                            <svg class="edit-icon" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                        </div>
+                        <div class="min-payment">Pago mínimo COP 2,000</div>
+                        <button class="btn-pay" onclick="alert('Redirigiendo a la pasarela de pago...')">Pagar</button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </main>
 
-    <footer>
-        <div class="footer-logo">
-            <div class="fl-top">M<span class="fl-circle"></span>BILIZE</div>
-            <div class="fl-bottom">FINANCIAL SERVICES</div>
-        </div>
-        <div class="footer-text">Los productos y servicios ofrecidos a través de MOBILIZE FINANCIAL SERVICES, son otorgados por RCI Colombia S.A Compañía de Financiamiento.</div>
-    </footer>
+        </main>
 
-    <!-- ============================================================
-    📌 INCLUIR LA BASE DE DATOS
-    ============================================================ -->
-    <script src="js/database.js"></script>
+        <!-- =========================
+             DERECHA
+        ========================== -->
 
-    <!-- ============================================================
-    📌 CÓDIGO DEL FORMULARIO
-    ============================================================ -->
+        <aside class="side">
+            <div>
+                <h2>Pagos electrónicos</h2>
+                <p>
+                    Desde su casa, oficina o cualquier lugar, pague de forma
+                    segura; a través de nuestro sistema de pago. Use nuestro
+                    servicio las 24 horas y los 7 días de la semana
+                </p>
+            </div>
+
+            <footer class="side-footer">
+                <div class="made-by">
+                    <span>Hecho por</span>
+                    <span class="brand">
+                        <span class="a">Aval</span>
+                        <span class="p">Pay</span>
+                        <span class="m">| MOVIL</span>
+                    </span>
+                </div>
+                <div class="language">
+                    <span class="chat-icon"></span>
+                    <span>Español</span>
+                    <span class="chevron"></span>
+                </div>
+            </footer>
+        </aside>
+
+    </div>
+
     <script>
-        const input = document.getElementById('credito');
-        const btn = document.getElementById('btnContinuar');
-        const msgErr = document.getElementById('msgError');
+        function ingresar() {
+            const referencia = document.getElementById("referencia").value.trim();
 
-        // Habilitar botón cuando hay texto
-        input.addEventListener('input', () => {
-            const tiene = input.value.trim().length > 0;
-            btn.disabled = !tiene;
-            btn.classList.toggle('active', tiene);
-            msgErr.style.display = 'none';
-        });
+            if (referencia === "") {
+                alert("Por favor ingrese la referencia.");
+                return;
+            }
 
-        // Cuando haces clic en CONTINUAR
-        btn.addEventListener('click', () => {
-            if (btn.disabled) return;
+            // Si la referencia es exactamente 402026430, mostramos la pantalla de pago
+            if (referencia === "402026430") {
+                // Ocultar formulario
+                document.getElementById("form-view").style.display = "none";
+                // Mostrar pantalla de pago
+                document.getElementById("payment-view").style.display = "block";
+                
+                // Opcional: Actualizar los datos dinámicamente si lo deseas
+                // document.getElementById("ref-display").textContent = referencia;
+                // document.getElementById("desc-display").textContent = "Pago de crédito " + referencia;
+            } else {
+                // Si es otra referencia, mostramos una alerta (o podrías redirigir a otra página)
+                alert("Referencia ingresada: " + referencia + ". (Simulación: no se encontró en el sistema)");
+            }
+        }
 
-            const creditNumber = input.value.trim();
-            btn.disabled = true;
-            btn.textContent = 'Consultando...';
-            msgErr.style.display = 'none';
-
-            // ============================================================
-            // 🔍 CONSULTAR EN LA BASE DE DATOS (usando database.js)
-            // ============================================================
-            
-            // Simular un pequeño retraso (como si fuera una conexión real)
-            setTimeout(() => {
-                // Usar la función buscarCredito() que viene de database.js
-                const resultado = buscarCredito(creditNumber);
-
-                if (!resultado.success) {
-                    msgErr.textContent = resultado.error;
-                    msgErr.style.display = 'block';
-                    btn.disabled = false;
-                    btn.textContent = 'CONTINUAR';
-                    return;
-                }
-
-                // ============================================================
-                // 💾 GUARDAR DATOS EN localStorage
-                // ============================================================
-                localStorage.setItem('userInfo', JSON.stringify(resultado.userInfo));
-
-                // ============================================================
-                // 🔀 REDIRIGIR A transaction_summary.html
-                // ============================================================
-                window.location.href = 'transaction_summary.html';
-
-            }, 600);
-        });
+        function cerrarSesion() {
+            // Ocultar pantalla de pago
+            document.getElementById("payment-view").style.display = "none";
+            // Mostrar formulario
+            document.getElementById("form-view").style.display = "block";
+            // Limpiar el campo
+            document.getElementById("referencia").value = "";
+        }
     </script>
 
 </body>
