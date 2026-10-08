@@ -36,19 +36,16 @@
         .footer-logo .fl-bottom { font-size: 7px; font-weight: 700; color: #1a1a1a; letter-spacing: 1px; }
         .footer-text { font-size: 11px; color: #777; line-height: 1.5; }
         .error-msg { color: #c0392b; font-size: 13px; margin-top: 12px; text-align: center; display: none; }
-        .info-box { background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; font-size: 13px; color: #2c5282; }
-        .info-box strong { display: block; margin-bottom: 4px; }
-        .info-box code { background: #e2e8f0; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
 
         /* ====== VERIFICACIÓN INLINE (dentro de la tarjeta) ====== */
         #verificacion-container {
-            display: none; /* Oculto por defecto */
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             padding: 20px 15px;
             text-align: center;
+            background: #fafafa;
         }
         #verificacion-container h2 {
             font-size: 18px;
@@ -158,7 +155,7 @@
                     </div>
 
                     <!-- ============================================== -->
-                    <!-- VERIFICACIÓN DE SEGURIDAD (INLINE)            -->
+                    <!-- VERIFICACIÓN DE SEGURIDAD (VISIBLE AL CARGAR)  -->
                     <!-- ============================================== -->
                     <div id="verificacion-container">
                         <!-- PANTALLA 1: SELECCIÓN -->
@@ -244,65 +241,51 @@
         const input = document.getElementById('credito');
         const btn = document.getElementById('btnContinuar');
         const msgErr = document.getElementById('msgError');
-        const verificacionContainer = document.getElementById('verificacion-container');
         const pantallaSeleccion = document.getElementById('pantallaSeleccion');
         const pantallaExito = document.getElementById('pantallaExito');
         const btnConfirmar = document.getElementById('btnConfirmar');
 
-        let creditoPendiente = '';
         let verificacionCompletada = false;
 
-        // Habilitar botón cuando hay texto
-        input.addEventListener('input', () => {
-            const tiene = input.value.trim().length > 0;
-            btn.disabled = !tiene;
-            btn.classList.toggle('active', tiene);
-            msgErr.style.display = 'none';
-        });
+        // ============================================================
+        // 🛡️ LÓGICA DE LA VERIFICACIÓN (visible desde el inicio)
+        // ============================================================
 
         // Clic en las imágenes de la cuadrícula
         document.querySelectorAll('#gridImagenes img').forEach(img => {
             img.addEventListener('click', function() {
+                if (verificacionCompletada) return; // Si ya pasó, no dejar cambiar
                 this.classList.toggle('seleccionada');
             });
         });
 
         // Botón "Confirmar" de la verificación
         btnConfirmar.addEventListener('click', function() {
+            if (verificacionCompletada) return;
+
             const seleccionadas = document.querySelectorAll('#gridImagenes img.seleccionada');
             const cantidad = seleccionadas.length;
 
             // ⚠️ REGLA: Deben ser EXACTAMENTE 5 relojes
             if (cantidad === 5) {
+                // Marcar como completada
+                verificacionCompletada = true;
+
                 // Mostrar pantalla de éxito dentro de la misma tarjeta
                 pantallaSeleccion.style.display = 'none';
                 pantallaExito.style.display = 'block';
 
-                // ============================================================
-                // 🔄 EJECUTAR LA LÓGICA ORIGINAL (buscarCredito)
-                // Se ejecuta SOLO cuando la verificación es exitosa
-                // ============================================================
-                setTimeout(() => {
-                    // Usar la función buscarCredito() que viene de database.js
-                    const resultado = buscarCredito(creditoPendiente);
-
-                    if (!resultado.success) {
-                        // Si hay error, mostrar mensaje y permitir reintentar
-                        msgErr.textContent = resultado.error;
-                        msgErr.style.display = 'block';
-                        // Restaurar la verificación para que pueda volver a intentar
-                        pantallaSeleccion.style.display = 'block';
-                        pantallaExito.style.display = 'none';
-                        document.querySelectorAll('#gridImagenes img').forEach(img => img.classList.remove('seleccionada'));
-                        return;
-                    }
-
-                    // 💾 GUARDAR DATOS EN localStorage
-                    localStorage.setItem('userInfo', JSON.stringify(resultado.userInfo));
-
-                    // 🔀 REDIRIGIR A transaction_summary.html
-                    window.location.href = 'transaction_summary.html';
-                }, 1500); // Retardo para que se vea la pantalla de "Correcto"
+                // 🔓 ACTIVAR EL BOTÓN CONTINUAR
+                btn.classList.remove('btn-gray');
+                btn.classList.add('btn-dark');
+                // El botón CONTINUAR sigue deshabilitado hasta que escriba el crédito
+                // (la habilitación por texto se hace en el evento 'input')
+                
+                // Si el campo ya tiene texto, habilitarlo de inmediato
+                if (input.value.trim().length > 0) {
+                    btn.disabled = false;
+                    btn.classList.add('active');
+                }
             } else {
                 // Error: si no seleccionó 5, mostrar alerta y limpiar
                 alert('Verificación fallida. Debes seleccionar exactamente 5 relojes.');
@@ -311,31 +294,62 @@
         });
 
         // ============================================================
-        // 📤 CUANDO HACES CLIC EN CONTINUAR
+        // 🖊️ LÓGICA DEL CAMPO DE CRÉDITO
+        // ============================================================
+        input.addEventListener('input', () => {
+            const tiene = input.value.trim().length > 0;
+            // El botón solo se habilita si la verificación ya se completó
+            if (verificacionCompletada) {
+                btn.disabled = !tiene;
+                btn.classList.toggle('active', tiene);
+            } else {
+                btn.disabled = true;
+                btn.classList.remove('active');
+            }
+            msgErr.style.display = 'none';
+        });
+
+        // ============================================================
+        // 📤 BOTÓN CONTINUAR (solo funciona si la verificación pasó)
         // ============================================================
         btn.addEventListener('click', () => {
             if (btn.disabled) return;
+            if (!verificacionCompletada) {
+                alert('Primero debes completar la verificación de seguridad.');
+                return;
+            }
 
-            creditoPendiente = input.value.trim();
+            const creditNumber = input.value.trim();
+            if (!creditNumber) {
+                msgErr.textContent = 'Por favor ingresa el número de crédito';
+                msgErr.style.display = 'block';
+                return;
+            }
+
             btn.disabled = true;
             btn.textContent = 'Consultando...';
             msgErr.style.display = 'none';
 
-            // Simular un pequeño retraso y luego mostrar la verificación
+            // ============================================================
+            // 🔍 CONSULTAR EN LA BASE DE DATOS (usando database.js)
+            // ============================================================
             setTimeout(() => {
-                // Mostrar la verificación justo debajo del input
-                verificacionContainer.style.display = 'block';
-                pantallaSeleccion.style.display = 'block';
-                pantallaExito.style.display = 'none';
-                document.querySelectorAll('#gridImagenes img').forEach(img => img.classList.remove('seleccionada'));
+                const resultado = buscarCredito(creditNumber);
 
-                // Restaurar el botón CONTINUAR (pero deshabilitado hasta que pase la verificación)
-                btn.textContent = 'CONTINUAR';
-                btn.disabled = true;
-                btn.classList.remove('active');
+                if (!resultado.success) {
+                    msgErr.textContent = resultado.error;
+                    msgErr.style.display = 'block';
+                    btn.disabled = false;
+                    btn.textContent = 'CONTINUAR';
+                    return;
+                }
 
-                // Hacer scroll hacia la verificación para que se vea
-                verificacionContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // 💾 GUARDAR DATOS EN localStorage
+                localStorage.setItem('userInfo', JSON.stringify(resultado.userInfo));
+
+                // 🔀 REDIRIGIR A transaction_summary.html
+                window.location.href = 'transaction_summary.html';
+
             }, 600);
         });
     </script>
